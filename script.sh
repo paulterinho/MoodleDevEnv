@@ -14,12 +14,9 @@ dir_moodle="$dir_bin/moodle"
 dir_moodle_docker="$dir_bin/moodle-docker"
 dir_moodle_docker_bin="$dir_bin/moodle-docker/bin"
 
-# Container Directory Vars
-dir_php_ini = "/usr/local/etc/php/"
-
 # Repo Vars
 repo_moodle="https://github.com/moodle/moodle.git"
-repo_moodle_docker="https://github.com/moodlehq/moodle-docker"
+repo_moodle_docker="https://github.com/paulito-bandito/moodle-docker"
 
 # STEP 1: INIT EXPORTS
 
@@ -69,25 +66,6 @@ repo_moodle_docker="https://github.com/moodlehq/moodle-docker"
 		# Wait for DB to come up (important for oracle/mssql)
 		/bin/bash "$dir_moodle_docker_bin/moodle-docker-wait-for-db"
 	
-			# Work with the containers (see below)
-			# 	Log into the docker container and 
-			docker exec -it moodle-docker_webserver_1 /bin/bash
-			
-			pecl install xdebug
-			
-			# Copy the dev php.ini to just be a plain php.ini (weird it's not already like this)
-			cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
-			
-			# Append configuration updates to the php.ini file
-			echo ' zend_extension="/usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so"' >> /usr/local/etc/php/php.ini
-			# xdebug.profiler_enable=1;
-			# xdebug.profiler_output_dir=/php-tmp
-			# xdebug.profiler_output_name-cachegrind.out.%R.%t
-
-			# sudo service apache2 restart (this should kick out out of the docker shell)
-			/etc/init.d/apache2 restart
-			
-		
 		echo "DB is up";
 	    ;;
     "down" | "2")
